@@ -1,0 +1,26 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Parameters:
+  IndexDocument:
+    Type: String
+    Default: index.html
+
+Resources:
+  # aws cloudformation create-change-set --stack-name upb-stack --change-set-name bucketNameChange2 --template-body file://cf/template.yaml
+  # aws cloudformation deploy --template-file cf/template.yaml --stack-name upb-stack  --parameter-overrides IndexDocument=app.html
+  MyS3Bucket:
+    Type: 'AWS::S3::Bucket'
+    # DeletionPolicy: Retain
+    Properties:
+      BucketName: my-upb-bucket-3234534534343
+      WebsiteConfiguration:
+        IndexDocument: !Ref IndexDocument
+        ErrorDocument: !Ref IndexDocument
+
+Outputs:
+  S3WebsiteURL:
+    Description: Website URL
+    Value: !GetAtt MyS3Bucket.WebsiteURL
+  S3BucketName:
+    Description: Bucket Name
+    Value: !Ref MyS3Bucket
