@@ -7,4 +7,32 @@ Resources:
       FunctionName: upb-lambda
       Handler: app.lambda_handler
       Runtime: python3.6
-      CodeUri: s3://gabodeployments2/efab3420442d544eab817e63fed6081e
+      CodeUri: s3://gaborexdeploy/0f11ac7ded972f6ae011721dec2f19c6
+      Role:
+        Fn::GetAtt:
+        - LambdaRole
+        - Arn
+  LambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: upb-lambda-role-2
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - lambda.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      Policies:
+      - PolicyName: root
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+          - Effect: Allow
+            Action:
+            - logs:CreateLogGroup
+            - logs:CreateLogStream
+            - logs:PutLogEvents
+            Resource: '*'
